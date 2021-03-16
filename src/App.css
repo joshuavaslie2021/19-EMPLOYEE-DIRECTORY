@@ -3,11 +3,13 @@ body {
   padding: 0;
 }
 
-
+.headerdirectory {
+  font: rgb(233, 0, 0);
+}
 
 .headeremp {
   font-size: 4vh;
-  color: white;
+  color: red;
   font-family: "Roboto Condensed", sans-serif;
 }
 .fa-users {
@@ -17,6 +19,7 @@ body {
 .headersub {
   font-size: 1.5vh;
   color: white;
+  font: rgb(233, 0, 0);
   font-family: "Roboto Condensed", sans-serif;
 }
 .user-area {
