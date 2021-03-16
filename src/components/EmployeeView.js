@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import Query from './Query'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,98 +7,75 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-
 const useStyles = makeStyles({
     table: {
-        minWidth: 650,
+      minWidth: 650,
     },
-});
-
-export default function EmployeeDisplay() {
+  });
+  
+export default function EmployeeView({ users, handleSort }) {
     const classes = useStyles();
-    const [nameSearch, setNameSearch] = useState("")
-    const [names, setNames] = useState()
-    useEffect(() => {
-        const apiCall = async (event) => {
-            const apiCall = `https://randomuser.me/api/?results=100&nat=us`
-
-            try {
-                const response = await fetch(apiCall)
-                const data = await response.json()
-                // const newArray = []
-                console.log(data)
-                setNames(data.results)
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        apiCall()
-    }, [])
-
-   
-    function formatDate(date) {
-        const dateArray = date.split("-");
-        const year = dateArray[0];
-        const month = dateArray[1];
-        const dayArray = dateArray[2].split("T");
-        const day = dayArray[0];
-        const formattedDate = [month, day, year].join("-");
-        return formattedDate;
-    }
-
-    const handleNameChange = event => {
-        console.log(event.target.value)
-        setNameSearch(event.target.value)
-    }
-    useEffect(() => {
-        console.log(nameSearch)
-    })
-
-   
-
+    const formatDate = (date) => {
+      const dateArray = date.split("-");
+      const year = dateArray[0];
+      const month = dateArray[1];
+      const dayArray = dateArray[2].split("T");
+      const day = dayArray[0];
+      const formattedDate = [month, day, year].join("-");
+      return formattedDate;
+    };
+  
     return (
-        <>
-            <Query
-                handleNameChange={handleNameChange}
-                nameSearch={nameSearch}
-            />
-            <div className="table">
-                <TableContainer component={Paper}>
-                 
-                    <Table className={classes.table} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="left">Image</TableCell>
-                                <TableCell align="left">Name</TableCell>
-                                <TableCell align="left">Phone</TableCell>
-                                <TableCell align="left">Email</TableCell>
-                                <TableCell align="left">DOB</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {names ? names.map((name) => (
-                                < TableRow key={name.index}>
-                                    <TableCell>
-                                        <img src={name.picture.thumbnail} alt={`${name.name.first} ${name.name.last}`} />
-                                    </TableCell>
-                                    <TableCell>
-                                        {name.name.first} {name.name.last}
-                                    </TableCell>
-                                    <TableCell>
-                                        {name.cell}
-                                    </TableCell>
-                                    <TableCell>
-                                        {name.email}
-                                    </TableCell>
-                                    <TableCell>
-                                        {formatDate(name.dob.date)}
-                                    </TableCell>
-                                </TableRow>
-                            )) : ""}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
-        </>
-    )
-}
+      <div className="container">
+        {users[0] !== undefined && users[0].name !== undefined ? (
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Image</TableCell>
+                  <TableCell
+                    align="right"
+                    onClick={() => {
+                      handleSort(users.name);
+                    }}
+                  >
+                    Name
+                  </TableCell>
+                  <TableCell align="right">Date of Birth</TableCell>
+                  <TableCell align="right">Email</TableCell>
+                  <TableCell align="right">Phone Number</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {users.map((user, index) => (
+                  <TableRow key={user.login.uuid}>
+                    <TableCell component="th" scope="row">
+                      <img src={user.picture.thumbnail} alt="employee portrait" />
+                    </TableCell>
+                    <TableCell align="right">
+                      <p>
+                        {user.name.first} {user.name.last}
+                      </p>
+                    </TableCell>
+                    <TableCell align="right">
+                      <p>{formatDate(user.registered.date)}</p>
+                    </TableCell>
+                    <TableCell align="right">
+                      <p>
+                        <a href={"mailto:" + user.email}>{user.email}</a>
+                      </p>
+                    </TableCell>
+                    <TableCell align="right">
+                      <p>{user.phone}</p>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <>Please try another user.</>
+        )}
+      </div>
+    );
+  }
