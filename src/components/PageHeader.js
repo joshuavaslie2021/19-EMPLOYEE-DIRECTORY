@@ -1,6 +1,6 @@
 export default function PageHeader () {
     return(
-        <div className="header">
+        <div className="PageHeader">
         <h1>Employee Directory</h1>
         </div>
     )

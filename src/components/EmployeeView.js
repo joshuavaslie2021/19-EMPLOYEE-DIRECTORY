@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from "react";
-import SearchForm from './SearchForm'
+import Query from './Query'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,7 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { DataGrid } from '@material-ui/data-grid';
+
 
 const useStyles = makeStyles({
     table: {
@@ -57,13 +56,13 @@ export default function EmployeeDisplay() {
         console.log(nameSearch)
     })
 
-    if (names) {
-        var dataGrid = [{ field: 'name.first', sort: 'asc' }]
-    }
+    // if (names) {
+    //     var dataGrid = [{ field: 'name.first', sort: 'asc' }]
+    // }
 
     return (
         <>
-            <SearchForm
+            <Query
                 handleNameChange={handleNameChange}
                 nameSearch={nameSearch}
             />
