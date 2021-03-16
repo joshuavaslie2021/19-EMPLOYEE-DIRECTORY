@@ -56,9 +56,7 @@ export default function EmployeeDisplay() {
         console.log(nameSearch)
     })
 
-    // if (names) {
-    //     var dataGrid = [{ field: 'name.first', sort: 'asc' }]
-    // }
+   
 
     return (
         <>
@@ -68,10 +66,7 @@ export default function EmployeeDisplay() {
             />
             <div className="table">
                 <TableContainer component={Paper}>
-                    {/* <DataGrid
-                        {...names}
-                        sortModel={dataGrid}
-                    /> */}
+                 
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
